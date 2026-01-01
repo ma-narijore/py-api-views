@@ -1,8 +1,6 @@
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status, generics, viewsets, mixins
 
-from django.shortcuts import get_object_or_404
 from django.http import Http404
 from rest_framework.views import APIView
 
@@ -24,50 +22,7 @@ from cinema.serializers import (
 class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
-    # def list(self, request):
-    #     movies = Movie.objects.all()
-    #     serializer = MovieSerializer(movies, many=True)
-    #     return Response(serializer.data, status=status.HTTP_200_OK)
-    #
-    # def craete(self, request):
-    #     serializer = MovieSerializer(data=request.data)
-    #     serializer.is_valid(raise_exception=True)
-    #     serializer.save()
-    #     return Response(serializer.data, status=status.HTTP_201_CREATED)
-    #
-    # def get_object(self, pk):
-    #     try:
-    #         return Movie.objects.get(pk=pk)
-    #     except Movie.DoesNotExist:
-    #         raise Http404
-    #
-    # def retrieve(self, request, pk):
-    #     movie = self.get_object(pk)
-    #
-    #     serializer = MovieSerializer(movie)
-    #     return Response(serializer.data, status=status.HTTP_200_OK)
-    #
-    # def update(self, request, pk):
-    #     movie = self.get_object(pk)
-    #
-    #     serializer = MovieSerializer(movie, data=request.data)
-    #     serializer.is_valid(raise_exception=True)
-    #     serializer.save()
-    #     return Response(serializer.data, status=status.HTTP_200_OK)
-    #
-    # def partial_update(self, request, pk):
-    #     movie = self.get_object(pk)
-    #
-    #     serializer = MovieSerializer(movie, data=request.data, partial=True)
-    #     serializer.is_valid(raise_exception=True)
-    #     serializer.save()
-    #     return Response(serializer.data, status=status.HTTP_200_OK)
-    #
-    # def destroy(self, request, pk):
-    #     movie = self.get_object(pk)
-    #
-    #     movie.delete()
-    #     return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class GenreList(APIView):
     def get(self, request):
@@ -103,7 +58,7 @@ class GenreDetail(APIView):
 
     def patch(self, request, pk):
         genre = self.get_object(pk)
-        serializer = GenreSerializer(genre, data=request.data)
+        serializer = GenreSerializer(genre, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
